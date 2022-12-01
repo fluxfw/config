@@ -51,10 +51,10 @@ export class GetConfigCommand {
         }
 
         if (typeof default_value === "boolean") {
-            if (value === "true" || value === 1) {
+            if (value === "true" || value === 1 || value === "1") {
                 value = true;
             } else {
-                if (value === "false" || value === 0) {
+                if (value === "false" || value === 0 || value === "0") {
                     value = false;
                 }
             }
