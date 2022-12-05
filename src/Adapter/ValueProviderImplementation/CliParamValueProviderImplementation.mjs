@@ -1,17 +1,14 @@
 import { ValueProviderImplementation } from "./ValueProviderImplementation.mjs";
-import yargsParser from "yargs-parser";
 
 /** @typedef {import("../../Service/Config/Command/GetConfigCommand.mjs").GetConfigCommand} GetConfigCommand */
+
+const PARAM_PREFIX = "--";
 
 export class CliParamValueProviderImplementation extends ValueProviderImplementation {
     /**
      * @type {string[]}
      */
     #argv;
-    /**
-     * @type {{[key: string]: string} | null}
-     */
-    #cli_params = null;
 
     /**
      * @param {string[]} argv
@@ -39,22 +36,17 @@ export class CliParamValueProviderImplementation extends ValueProviderImplementa
      * @returns {Promise<*>}
      */
     async getConfig(key, getConfigCommand) {
-        return this.#getCliParams()[key] ?? null;
-    }
+        const argv = this.#argv.slice(2);
 
-    /**
-     * @returns {{[key: string]: string}}
-     */
-    #getCliParams() {
-        this.#cli_params ??= yargsParser(this.#argv.slice(2), {
-            configuration: {
-                "boolean-negation": false,
-                "camel-case-expansion": false,
-                "dot-notation": false,
-                "duplicate-arguments-array": false
+        for (const [
+            i,
+            param
+        ] in argv.entries()) {
+            if (param === `${PARAM_PREFIX}${key}`) {
+                return this.#argv[i + 1];
             }
-        });
+        }
 
-        return this.#cli_params;
+        return null;
     }
 }

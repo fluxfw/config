@@ -1,12 +1,9 @@
 {
     "name": "flux-config-api",
     "productName": "flux-config-api",
-    "version": "2022-12-01-3",
+    "version": "2022-12-05-1",
     "description": "",
     "keywords": [],
     "homepage": "",
-    "peerDependencies": {
-        "yargs-parser": "*"
-    },
     "private": true
 }
