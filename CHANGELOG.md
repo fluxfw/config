@@ -6,6 +6,14 @@ Changes:
 
 \-
 
+## v2022-12-05-1
+
+Changes:
+
+- Own simple cli params parser
+- Trim empty end lines on file provider
+- Force unix line breaks
+
 ## v2022-12-01-3
 
 Changes:
