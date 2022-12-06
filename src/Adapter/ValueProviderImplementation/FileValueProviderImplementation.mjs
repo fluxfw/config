@@ -3,7 +3,7 @@ import { ValueProviderImplementation } from "./ValueProviderImplementation.mjs";
 
 /** @typedef {import("../../Service/Config/Command/GetConfigCommand.mjs").GetConfigCommand} GetConfigCommand */
 
-const FILE_SUFFIX = "_file";
+const FILE_SUFFIX = "-file";
 
 export class FileValueProviderImplementation extends ValueProviderImplementation {
     /**

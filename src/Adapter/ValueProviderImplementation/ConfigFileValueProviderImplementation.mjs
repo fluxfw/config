@@ -3,7 +3,7 @@ import { ValueProviderImplementation } from "./ValueProviderImplementation.mjs";
 
 /** @typedef {import("../../Service/Config/Command/GetConfigCommand.mjs").GetConfigCommand} GetConfigCommand */
 
-const CONFIG_FILE_KEY = "config_file";
+const CONFIG_FILE_KEY = "config-file";
 
 export class ConfigFileValueProviderImplementation extends ValueProviderImplementation {
     /**
