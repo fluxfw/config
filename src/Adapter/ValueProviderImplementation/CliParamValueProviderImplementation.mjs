@@ -41,9 +41,9 @@ export class CliParamValueProviderImplementation extends ValueProviderImplementa
         for (const [
             i,
             param
-        ] in argv.entries()) {
+        ] of argv.entries()) {
             if (param === `${PARAM_PREFIX}${key}`) {
-                return this.#argv[i + 1];
+                return argv[i + 1];
             }
         }
 
