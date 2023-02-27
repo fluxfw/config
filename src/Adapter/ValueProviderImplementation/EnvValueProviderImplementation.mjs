@@ -42,8 +42,6 @@ export class EnvValueProviderImplementation extends ValueProviderImplementation 
      * @returns {Promise<*>}
      */
     async getConfig(key, getConfigCommand) {
-        return (
-            this.#env[`${this.#prefix}${key}`.replaceAll("-", "_").toUpperCase()]
-        );
+        return this.#env[`${this.#prefix}${key}`.replaceAll("-", "_").toUpperCase()] ?? null;
     }
 }

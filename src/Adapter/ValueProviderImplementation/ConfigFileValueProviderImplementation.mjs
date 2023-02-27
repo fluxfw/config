@@ -37,7 +37,7 @@ export class ConfigFileValueProviderImplementation extends ValueProviderImplemen
 
         return (await this.#getConfigFile(
             getConfigCommand
-        ))[key];
+        ))[key] ?? null;
     }
 
     /**
@@ -51,7 +51,7 @@ export class ConfigFileValueProviderImplementation extends ValueProviderImplemen
             );
 
             if ((config_file ?? null) !== null) {
-                this.#config = JSON.parse((await readFile(config_file, "utf8")).trim().replaceAll("\r\n", "\n").replaceAll("\r", "\n")) ?? {};
+                this.#config = JSON.parse(await readFile(config_file, "utf8")) ?? {};
             } else {
                 this.#config = {};
             }

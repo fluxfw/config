@@ -37,14 +37,12 @@ export class FileValueProviderImplementation extends ValueProviderImplementation
             return null;
         }
 
-        let value = (await readFile(value_file, "utf8")).replaceAll("\r\n", "\n").replaceAll("\r", "\n");
-
-        while (value.endsWith("\n")) {
-            value = value.substring(0, value.length - 1);
-        }
+        let value = await readFile(value_file, "utf8");
 
         if (value_file.endsWith(".json")) {
-            value = JSON.parse(value.trim());
+            value = JSON.parse(value) ?? {};
+        } else {
+            value = value.trimEnd();
         }
 
         return value;
