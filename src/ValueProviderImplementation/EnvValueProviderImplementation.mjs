@@ -1,7 +1,5 @@
 import { ValueProviderImplementation } from "./ValueProviderImplementation.mjs";
 
-/** @typedef {import("../../Service/Config/Command/GetConfigCommand.mjs").GetConfigCommand} GetConfigCommand */
-
 export class EnvValueProviderImplementation extends ValueProviderImplementation {
     /**
      * @type {{[key: string]: string}}
@@ -38,10 +36,9 @@ export class EnvValueProviderImplementation extends ValueProviderImplementation 
 
     /**
      * @param {string} key
-     * @param {GetConfigCommand} getConfigCommand
      * @returns {Promise<*>}
      */
-    async getConfig(key, getConfigCommand) {
+    async getConfig(key) {
         return this.#env[`${this.#prefix}${key}`.replaceAll("-", "_").toUpperCase()] ?? null;
     }
 }

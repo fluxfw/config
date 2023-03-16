@@ -1,6 +1,6 @@
-/** @typedef {import("../../../Adapter/ValueProviderImplementation/ValueProviderImplementation.mjs").ValueProviderImplementation} ValueProviderImplementation */
+/** @typedef {import("./ValueProviderImplementation/ValueProviderImplementation.mjs").ValueProviderImplementation} ValueProviderImplementation */
 
-export class GetConfigCommand {
+export class FluxConfigApi {
     /**
      * @type {ValueProviderImplementation[]}
      */
@@ -8,7 +8,7 @@ export class GetConfigCommand {
 
     /**
      * @param {ValueProviderImplementation[]} value_provider_implementations
-     * @returns {GetConfigCommand}
+     * @returns {FluxConfigApi}
      */
     static new(value_provider_implementations) {
         return new this(

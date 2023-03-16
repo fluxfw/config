@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { ValueProviderImplementation } from "./ValueProviderImplementation.mjs";
 
-/** @typedef {import("../../Service/Config/Command/GetConfigCommand.mjs").GetConfigCommand} GetConfigCommand */
+/** @typedef {import("../FluxConfigApi.mjs").FluxConfigApi} FluxConfigApi */
 
 const FILE_SUFFIX = "-file";
 
@@ -22,15 +22,15 @@ export class FileValueProviderImplementation extends ValueProviderImplementation
 
     /**
      * @param {string} key
-     * @param {GetConfigCommand} getConfigCommand
+     * @param {FluxConfigApi} flux_config_api
      * @returns {Promise<*>}
      */
-    async getConfig(key, getConfigCommand) {
+    async getConfig(key, flux_config_api) {
         if (key.endsWith(FILE_SUFFIX)) {
             return null;
         }
 
-        const value_file = await getConfigCommand.getConfig(
+        const value_file = await flux_config_api.getConfig(
             `${key}${FILE_SUFFIX}`
         );
         if ((value_file ?? null) === null) {

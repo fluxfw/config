@@ -1,6 +1,26 @@
 {
-    "version": "2023-02-27-1",
-    "description": "",
-    "topics": [],
+    "version": "2023-03-16-1",
+    "description": "Read config from value providers",
+    "topics": [
+        "arg",
+        "args",
+        "argument",
+        "arguments",
+        "cli",
+        "config",
+        "configs",
+        "env",
+        "environment",
+        "file",
+        "files",
+        "param",
+        "parameter",
+        "parameters",
+        "params",
+        "provider",
+        "providers",
+        "read",
+        "value"
+    ],
     "homepage": ""
 }

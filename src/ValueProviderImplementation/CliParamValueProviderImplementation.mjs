@@ -1,7 +1,5 @@
 import { ValueProviderImplementation } from "./ValueProviderImplementation.mjs";
 
-/** @typedef {import("../../Service/Config/Command/GetConfigCommand.mjs").GetConfigCommand} GetConfigCommand */
-
 const PARAM_PREFIX = "--";
 
 export class CliParamValueProviderImplementation extends ValueProviderImplementation {
@@ -32,10 +30,9 @@ export class CliParamValueProviderImplementation extends ValueProviderImplementa
 
     /**
      * @param {string} key
-     * @param {GetConfigCommand} getConfigCommand
      * @returns {Promise<*>}
      */
-    async getConfig(key, getConfigCommand) {
+    async getConfig(key) {
         const argv = this.#argv.slice(2);
 
         for (const [

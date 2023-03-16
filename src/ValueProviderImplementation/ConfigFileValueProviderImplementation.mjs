@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { ValueProviderImplementation } from "./ValueProviderImplementation.mjs";
 
-/** @typedef {import("../../Service/Config/Command/GetConfigCommand.mjs").GetConfigCommand} GetConfigCommand */
+/** @typedef {import("../FluxConfigApi.mjs").FluxConfigApi} FluxConfigApi */
 
 const CONFIG_FILE_KEY = "config-file";
 
@@ -27,26 +27,26 @@ export class ConfigFileValueProviderImplementation extends ValueProviderImplemen
 
     /**
      * @param {string} key
-     * @param {GetConfigCommand} getConfigCommand
+     * @param {FluxConfigApi} flux_config_api
      * @returns {Promise<*>}
      */
-    async getConfig(key, getConfigCommand) {
+    async getConfig(key, flux_config_api) {
         if (key === CONFIG_FILE_KEY) {
             return null;
         }
 
         return (await this.#getConfigFile(
-            getConfigCommand
+            flux_config_api
         ))[key] ?? null;
     }
 
     /**
-     * @param {GetConfigCommand} getConfigCommand
+     * @param {FluxConfigApi} flux_config_api
      * @returns {Promise<{[key: string]: *}>}
      */
-    async #getConfigFile(getConfigCommand) {
+    async #getConfigFile(flux_config_api) {
         if (this.#config === null) {
-            const config_file = await getConfigCommand.getConfig(
+            const config_file = await flux_config_api.getConfig(
                 CONFIG_FILE_KEY
             );
 
