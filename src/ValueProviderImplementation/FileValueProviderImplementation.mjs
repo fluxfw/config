@@ -1,11 +1,14 @@
 import { readFile } from "node:fs/promises";
-import { ValueProviderImplementation } from "./ValueProviderImplementation.mjs";
 
 /** @typedef {import("../FluxConfigApi.mjs").FluxConfigApi} FluxConfigApi */
+/** @typedef {import("./ValueProviderImplementation.mjs").ValueProviderImplementation} ValueProviderImplementation */
 
 const FILE_SUFFIX = "-file";
 
-export class FileValueProviderImplementation extends ValueProviderImplementation {
+/**
+ * @implements {ValueProviderImplementation}
+ */
+export class FileValueProviderImplementation {
     /**
      * @returns {FileValueProviderImplementation}
      */
@@ -17,7 +20,7 @@ export class FileValueProviderImplementation extends ValueProviderImplementation
      * @private
      */
     constructor() {
-        super();
+
     }
 
     /**

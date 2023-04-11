@@ -1,11 +1,14 @@
 import { readFile } from "node:fs/promises";
-import { ValueProviderImplementation } from "./ValueProviderImplementation.mjs";
 
 /** @typedef {import("../FluxConfigApi.mjs").FluxConfigApi} FluxConfigApi */
+/** @typedef {import("./ValueProviderImplementation.mjs").ValueProviderImplementation} ValueProviderImplementation */
 
 const CONFIG_FILE_KEY = "config-file";
 
-export class ConfigFileValueProviderImplementation extends ValueProviderImplementation {
+/**
+ * @implements {ValueProviderImplementation}
+ */
+export class ConfigFileValueProviderImplementation {
     /**
      * @type {{[key: string]: *} | null}
      */
@@ -22,7 +25,7 @@ export class ConfigFileValueProviderImplementation extends ValueProviderImplemen
      * @private
      */
     constructor() {
-        super();
+
     }
 
     /**

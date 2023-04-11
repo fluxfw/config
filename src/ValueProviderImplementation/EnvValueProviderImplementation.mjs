@@ -1,6 +1,9 @@
-import { ValueProviderImplementation } from "./ValueProviderImplementation.mjs";
+/** @typedef {import("./ValueProviderImplementation.mjs").ValueProviderImplementation} ValueProviderImplementation */
 
-export class EnvValueProviderImplementation extends ValueProviderImplementation {
+/**
+ * @implements {ValueProviderImplementation}
+ */
+export class EnvValueProviderImplementation {
     /**
      * @type {{[key: string]: string}}
      */
@@ -28,8 +31,6 @@ export class EnvValueProviderImplementation extends ValueProviderImplementation 
      * @private
      */
     constructor(env, prefix) {
-        super();
-
         this.#env = env;
         this.#prefix = prefix;
     }

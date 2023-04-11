@@ -1,8 +1,11 @@
-import { ValueProviderImplementation } from "./ValueProviderImplementation.mjs";
+/** @typedef {import("./ValueProviderImplementation.mjs").ValueProviderImplementation} ValueProviderImplementation */
 
 const PARAM_PREFIX = "--";
 
-export class CliParamValueProviderImplementation extends ValueProviderImplementation {
+/**
+ * @implements {ValueProviderImplementation}
+ */
+export class CliParamValueProviderImplementation {
     /**
      * @type {string[]}
      */
@@ -23,8 +26,6 @@ export class CliParamValueProviderImplementation extends ValueProviderImplementa
      * @private
      */
     constructor(argv) {
-        super();
-
         this.#argv = argv;
     }
 
