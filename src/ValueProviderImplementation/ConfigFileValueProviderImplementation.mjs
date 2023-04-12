@@ -50,7 +50,9 @@ export class ConfigFileValueProviderImplementation {
     async #getConfigFile(flux_config_api) {
         if (this.#config === null) {
             const config_file = await flux_config_api.getConfig(
-                CONFIG_FILE_KEY
+                CONFIG_FILE_KEY,
+                null,
+                false
             );
 
             if ((config_file ?? null) !== null) {

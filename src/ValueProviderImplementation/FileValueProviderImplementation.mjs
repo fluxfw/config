@@ -34,7 +34,9 @@ export class FileValueProviderImplementation {
         }
 
         const value_file = await flux_config_api.getConfig(
-            `${key}${FILE_SUFFIX}`
+            `${key}${FILE_SUFFIX}`,
+            null,
+            false
         );
         if ((value_file ?? null) === null) {
             return null;

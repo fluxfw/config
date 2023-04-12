@@ -27,9 +27,10 @@ export class FluxConfigApi {
     /**
      * @param {string} key
      * @param {*} default_value
+     * @param {boolean | null} required
      * @returns {Promise<*>}
      */
-    async getConfig(key, default_value = null) {
+    async getConfig(key, default_value = null, required = null) {
         let value;
 
         for (const value_provider_implementation of this.#value_provider_implementations) {
@@ -40,6 +41,10 @@ export class FluxConfigApi {
         }
 
         if ((value ?? null) === null) {
+            if (required ?? (default_value === null)) {
+                throw new Error(`Missing config ${key}`);
+            }
+
             return default_value;
         }
 
