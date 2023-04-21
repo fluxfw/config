@@ -50,7 +50,7 @@ export class FluxConfigApi {
 
         if (typeof default_value === "number" && typeof value === "string" && /^[0-9.]+$/.test(value) && !isNaN(value)) {
             const _value = parseFloat(value);
-            if (!isNaN(_value)) {
+            if (!Number.isNaN(_value)) {
                 value = _value;
             }
         }
