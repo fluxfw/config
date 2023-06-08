@@ -1,5 +1,5 @@
 {
-    "version": "2023-04-12-1",
+    "version": "2023-06-08-1",
     "description": "Read config from value providers",
     "topics": [
         "arg",
