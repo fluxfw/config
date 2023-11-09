@@ -6,6 +6,12 @@ Changes:
 
 \-
 
+## v2023-11-09-1
+
+Changes:
+
+- Add inline JSON config
+
 ## v2023-06-08-1
 
 Changes:

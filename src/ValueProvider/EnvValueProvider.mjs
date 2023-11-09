@@ -1,9 +1,4 @@
-/** @typedef {import("./ValueProviderImplementation.mjs").ValueProviderImplementation} ValueProviderImplementation */
-
-/**
- * @implements {ValueProviderImplementation}
- */
-export class EnvValueProviderImplementation {
+export class EnvValueProvider {
     /**
      * @type {{[key: string]: string}}
      */
@@ -16,7 +11,7 @@ export class EnvValueProviderImplementation {
     /**
      * @param {{[key: string]: string}} env
      * @param {string} prefix
-     * @returns {EnvValueProviderImplementation}
+     * @returns {EnvValueProvider}
      */
     static new(env, prefix) {
         return new this(

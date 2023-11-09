@@ -1,27 +1,27 @@
-/** @typedef {import("./ValueProviderImplementation/ValueProviderImplementation.mjs").ValueProviderImplementation} ValueProviderImplementation */
+/** @typedef {import("./ValueProvider/ValueProvider.mjs").ValueProvider} ValueProvider */
 
 export class FluxConfigApi {
     /**
-     * @type {ValueProviderImplementation[]}
+     * @type {ValueProvider[]}
      */
-    #value_provider_implementations;
+    #value_providers;
 
     /**
-     * @param {ValueProviderImplementation[]} value_provider_implementations
+     * @param {ValueProvider[]} value_providers
      * @returns {FluxConfigApi}
      */
-    static new(value_provider_implementations) {
+    static new(value_providers) {
         return new this(
-            value_provider_implementations
+            value_providers
         );
     }
 
     /**
-     * @param {ValueProviderImplementation[]} value_provider_implementations
+     * @param {ValueProvider[]} value_providers
      * @private
      */
-    constructor(value_provider_implementations) {
-        this.#value_provider_implementations = value_provider_implementations;
+    constructor(value_providers) {
+        this.#value_providers = value_providers;
     }
 
     /**
@@ -33,8 +33,8 @@ export class FluxConfigApi {
     async getConfig(key, default_value = null, required = null) {
         let value;
 
-        for (const value_provider_implementation of this.#value_provider_implementations) {
-            value ??= await value_provider_implementation.getConfig(
+        for (const value_provider of this.#value_providers) {
+            value ??= await value_provider.getConfig(
                 key,
                 this
             );
