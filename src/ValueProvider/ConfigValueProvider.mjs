@@ -1,4 +1,5 @@
 import { FILE_SUFFIX } from "./FileValueProvider.mjs";
+import { JSON_FILE_SUFFIX } from "./JsonFileValueProvider.mjs";
 import { JSON_SUFFIX } from "./JsonValueProvider.mjs";
 
 /** @typedef {import("../FluxConfigApi.mjs").FluxConfigApi} FluxConfigApi */
@@ -31,13 +32,13 @@ export class ConfigValueProvider {
      * @returns {Promise<*>}
      */
     async getConfig(key, flux_config_api) {
-        if (key === CONFIG_KEY || key.endsWith(FILE_SUFFIX) || key.endsWith(JSON_SUFFIX)) {
+        if (key === CONFIG_KEY || key === `${CONFIG_KEY}${FILE_SUFFIX}` || key === `${CONFIG_KEY}${JSON_SUFFIX}` || key === `${CONFIG_KEY}${JSON_FILE_SUFFIX}`) {
             return null;
         }
 
-        return (await this.#getConfig(
+        return structuredClone((await this.#getConfig(
             flux_config_api
-        ))[key] ?? null;
+        ))[key] ?? null);
     }
 
     /**

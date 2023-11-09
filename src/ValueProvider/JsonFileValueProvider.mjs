@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 
 /** @typedef {import("../FluxConfigApi.mjs").FluxConfigApi} FluxConfigApi */
 
-const JSON_FILE_SUFFIX = `${JSON_SUFFIX}${FILE_SUFFIX}`;
+export const JSON_FILE_SUFFIX = `${JSON_SUFFIX}${FILE_SUFFIX}`;
 
 export class JsonFileValueProvider {
     /**
