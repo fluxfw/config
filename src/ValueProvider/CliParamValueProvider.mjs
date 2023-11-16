@@ -31,11 +31,13 @@ export class CliParamValueProvider {
     async getConfig(key) {
         const argv = this.#argv.slice(2);
 
+        const param = `${PARAM_PREFIX}${key}`.replaceAll("_", "-").toLowerCase();
+
         for (const [
             i,
-            param
+            _param
         ] of argv.entries()) {
-            if (param === `${PARAM_PREFIX}${key}`) {
+            if (_param === param) {
                 return argv[i + 1] ?? null;
             }
         }

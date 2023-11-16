@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 
-/** @typedef {import("../FluxConfigApi.mjs").FluxConfigApi} FluxConfigApi */
+/** @typedef {import("../FluxConfig.mjs").FluxConfig} FluxConfig */
 
 export const FILE_SUFFIX = "-file";
 
@@ -21,15 +21,15 @@ export class FileValueProvider {
 
     /**
      * @param {string} key
-     * @param {FluxConfigApi} flux_config_api
+     * @param {FluxConfig} flux_config
      * @returns {Promise<*>}
      */
-    async getConfig(key, flux_config_api) {
+    async getConfig(key, flux_config) {
         if (key.endsWith(FILE_SUFFIX) || key.endsWith("-json")) {
             return null;
         }
 
-        const value = await flux_config_api.getConfig(
+        const value = await flux_config.getConfig(
             `${key}${FILE_SUFFIX}`,
             null,
             false

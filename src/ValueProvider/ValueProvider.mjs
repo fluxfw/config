@@ -1,5 +1,5 @@
-/** @typedef {import("../FluxConfigApi.mjs").FluxConfigApi} FluxConfigApi */
+/** @typedef {import("../FluxConfig.mjs").FluxConfig} FluxConfig */
 
 /**
- * @typedef {{getConfig: (key: string, flux_config_api: FluxConfigApi) => Promise<*>}} ValueProvider
+ * @typedef {{getConfig: (key: string, flux_config: FluxConfig) => Promise<*>}} ValueProvider
  */

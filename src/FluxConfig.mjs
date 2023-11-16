@@ -1,6 +1,6 @@
 /** @typedef {import("./ValueProvider/ValueProvider.mjs").ValueProvider} ValueProvider */
 
-export class FluxConfigApi {
+export class FluxConfig {
     /**
      * @type {ValueProvider[]}
      */
@@ -8,7 +8,7 @@ export class FluxConfigApi {
 
     /**
      * @param {ValueProvider[]} value_providers
-     * @returns {FluxConfigApi}
+     * @returns {FluxConfig}
      */
     static new(value_providers) {
         return new this(

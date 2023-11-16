@@ -2,7 +2,7 @@ import { FILE_SUFFIX } from "./FileValueProvider.mjs";
 import { JSON_FILE_SUFFIX } from "./JsonFileValueProvider.mjs";
 import { JSON_SUFFIX } from "./JsonValueProvider.mjs";
 
-/** @typedef {import("../FluxConfigApi.mjs").FluxConfigApi} FluxConfigApi */
+/** @typedef {import("../FluxConfig.mjs").FluxConfig} FluxConfig */
 
 const CONFIG_KEY = "config";
 
@@ -28,25 +28,25 @@ export class ConfigValueProvider {
 
     /**
      * @param {string} key
-     * @param {FluxConfigApi} flux_config_api
+     * @param {FluxConfig} flux_config
      * @returns {Promise<*>}
      */
-    async getConfig(key, flux_config_api) {
+    async getConfig(key, flux_config) {
         if (key === CONFIG_KEY || key === `${CONFIG_KEY}${FILE_SUFFIX}` || key === `${CONFIG_KEY}${JSON_SUFFIX}` || key === `${CONFIG_KEY}${JSON_FILE_SUFFIX}`) {
             return null;
         }
 
         return structuredClone((await this.#getConfig(
-            flux_config_api
-        ))[key] ?? null);
+            flux_config
+        ))[key.replaceAll("_", "-").toLowerCase()] ?? null);
     }
 
     /**
-     * @param {FluxConfigApi} flux_config_api
+     * @param {FluxConfig} flux_config
      * @returns {Promise<{[key: string]: *}>}
      */
-    async #getConfig(flux_config_api) {
-        this.#config ??= await flux_config_api.getConfig(
+    async #getConfig(flux_config) {
+        this.#config ??= await flux_config.getConfig(
             CONFIG_KEY,
             {},
             false

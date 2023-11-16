@@ -1,3 +1,3 @@
-# flux-config-api
+# flux-config
 
 Read config from value providers
