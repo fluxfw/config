@@ -8,9 +8,9 @@ export class FluxConfig {
 
     /**
      * @param {ValueProvider[]} value_providers
-     * @returns {FluxConfig}
+     * @returns {Promise<FluxConfig>}
      */
-    static new(value_providers) {
+    static async new(value_providers) {
         return new this(
             value_providers
         );

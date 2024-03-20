@@ -6,9 +6,9 @@ export const FILE_SUFFIX = "-file";
 
 export class FileValueProvider {
     /**
-     * @returns {FileValueProvider}
+     * @returns {Promise<FileValueProvider>}
      */
-    static new() {
+    static async new() {
         return new this();
     }
 

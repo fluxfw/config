@@ -8,17 +8,17 @@
 export async function getValueProviders(env_previx, cli_param = null) {
     return [
         ...cli_param ?? true ? [
-            (await import("./ValueProvider/CliParamValueProvider.mjs")).CliParamValueProvider.new(
+            await (await import("./ValueProvider/CliParamValueProvider.mjs")).CliParamValueProvider.new(
                 process.argv
             )
         ] : [],
-        (await import("./ValueProvider/EnvValueProvider.mjs")).EnvValueProvider.new(
+        await (await import("./ValueProvider/EnvValueProvider.mjs")).EnvValueProvider.new(
             process.env,
             env_previx
         ),
-        (await import("./ValueProvider/ConfigValueProvider.mjs")).ConfigValueProvider.new(),
-        (await import("./ValueProvider/JsonValueProvider.mjs")).JsonValueProvider.new(),
-        (await import("./ValueProvider/JsonFileValueProvider.mjs")).JsonFileValueProvider.new(),
-        (await import("./ValueProvider/FileValueProvider.mjs")).FileValueProvider.new()
+        await (await import("./ValueProvider/ConfigValueProvider.mjs")).ConfigValueProvider.new(),
+        await (await import("./ValueProvider/JsonValueProvider.mjs")).JsonValueProvider.new(),
+        await (await import("./ValueProvider/JsonFileValueProvider.mjs")).JsonFileValueProvider.new(),
+        await (await import("./ValueProvider/FileValueProvider.mjs")).FileValueProvider.new()
     ];
 }

@@ -13,9 +13,9 @@ export class ConfigValueProvider {
     #config = null;
 
     /**
-     * @returns {ConfigValueProvider}
+     * @returns {Promise<ConfigValueProvider>}
      */
-    static new() {
+    static async new() {
         return new this();
     }
 

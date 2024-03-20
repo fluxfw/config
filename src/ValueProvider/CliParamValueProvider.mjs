@@ -8,9 +8,9 @@ export class CliParamValueProvider {
 
     /**
      * @param {string[]} argv
-     * @returns {CliParamValueProvider}
+     * @returns {Promise<CliParamValueProvider>}
      */
-    static new(argv) {
+    static async new(argv) {
         return new this(
             argv
         );

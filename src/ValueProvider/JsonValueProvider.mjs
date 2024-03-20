@@ -6,9 +6,9 @@ export const JSON_SUFFIX = "-json";
 
 export class JsonValueProvider {
     /**
-     * @returns {JsonValueProvider}
+     * @returns {Promise<JsonValueProvider>}
      */
-    static new() {
+    static async new() {
         return new this();
     }
 

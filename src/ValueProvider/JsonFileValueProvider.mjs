@@ -8,9 +8,9 @@ export const JSON_FILE_SUFFIX = `${JSON_SUFFIX}${FILE_SUFFIX}`;
 
 export class JsonFileValueProvider {
     /**
-     * @returns {JsonFileValueProvider}
+     * @returns {Promise<JsonFileValueProvider>}
      */
-    static new() {
+    static async new() {
         return new this();
     }
 

@@ -11,9 +11,9 @@ export class EnvValueProvider {
     /**
      * @param {{[key: string]: string}} env
      * @param {string} prefix
-     * @returns {EnvValueProvider}
+     * @returns {Promise<EnvValueProvider>}
      */
-    static new(env, prefix) {
+    static async new(env, prefix) {
         return new this(
             env,
             prefix
