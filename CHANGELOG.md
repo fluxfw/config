@@ -6,6 +6,17 @@ Changes:
 
 \-
 
+## v2024-04-03-1
+
+Changes:
+
+- Type config for type cast/validate and not rely on default value anymore
+- Supports empty string, `no` or`yes` and case insensitive values on boolean cast
+- No prefix value flips boolean values
+- Use `node:util/parseArgs` for parse args and switch from `--key value` to `--key=value`
+- Pass custom `args` or `env` values to `getValueProviders`
+- Default value can be `function`
+
 ## v2024-03-20-1
 
 Changes:

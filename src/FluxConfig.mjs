@@ -1,3 +1,5 @@
+import { CONFIG_TYPE_BOOLEAN, CONFIG_TYPE_NONE, CONFIG_TYPE_NUMBER, CONFIG_TYPE_STRING } from "./CONFIG_TYPE.mjs";
+
 /** @typedef {import("./ValueProvider/ValueProvider.mjs").ValueProvider} ValueProvider */
 
 export class FluxConfig {
@@ -27,44 +29,97 @@ export class FluxConfig {
     /**
      * @param {string} key
      * @param {*} default_value
+     * @param {string | null} type
      * @param {boolean | null} required
+     * @param {boolean | null} type_strict
      * @returns {Promise<*>}
      */
-    async getConfig(key, default_value = null, required = null) {
+    async getConfig(key, default_value = null, type = null, required = null, type_strict = null) {
         let value;
 
         for (const value_provider of this.#value_providers) {
             value ??= await value_provider.getConfig(
                 key,
                 this
-            );
+            ) ?? null;
         }
 
-        if ((value ?? null) === null) {
-            if (required ?? (default_value === null)) {
-                throw new Error(`Missing config ${key}`);
-            }
+        value ??= typeof default_value === "function" ? await default_value() ?? null : default_value;
 
-            return default_value;
-        }
-
-        if (typeof default_value === "number" && typeof value === "string" && /^-?\d+(\.\d+)?$/.test(value) && !isNaN(value)) {
-            const _value = parseFloat(value);
-            if (!Number.isNaN(_value)) {
-                value = _value;
-            }
-        }
-
-        if (typeof default_value === "boolean") {
-            if (value === "true" || value === 1 || value === "1") {
-                value = true;
+        if (value === null) {
+            if (required ?? true) {
+                throw new Error(`Missing config ${key}!`);
             } else {
-                if (value === "false" || value === 0 || value === "0") {
-                    value = false;
-                }
+                return null;
             }
         }
 
-        return value;
+        switch (type ?? CONFIG_TYPE_STRING) {
+            case CONFIG_TYPE_BOOLEAN:
+                if (typeof value === "boolean") {
+                    return value;
+                }
+
+                if ([
+                    "true",
+                    "yes",
+                    1,
+                    "1",
+                    ""
+                ].includes(typeof value === "string" ? value.toLowerCase() : value)) {
+                    return true;
+                }
+
+                if ([
+                    "false",
+                    "no",
+                    0,
+                    "0"
+                ].includes(typeof value === "string" ? value.toLowerCase() : value)) {
+                    return false;
+                }
+
+                if (type_strict ?? true) {
+                    throw new Error(`Invalid boolean config ${key}=${value}!`);
+                }
+
+                return value;
+
+            case CONFIG_TYPE_NONE:
+                return value;
+
+            case CONFIG_TYPE_NUMBER:
+                if (Number.isFinite(value)) {
+                    return value;
+                }
+
+                if (typeof value === "string" && /^-?\d+(\.\d+)?$/.test(value)) {
+                    const number = parseFloat(value);
+
+                    if (Number.isFinite(number)) {
+                        return number;
+                    }
+                }
+
+                if (type_strict ?? true) {
+                    throw new Error(`Invalid number config ${key}=${value}!`);
+                }
+
+                return value;
+
+            case CONFIG_TYPE_STRING:
+                if (typeof value === "string") {
+                    return value;
+                }
+
+                if (type_strict ?? true) {
+                    throw new Error(`Invalid string config ${key}=${value}!`);
+                }
+
+                return value;
+
+            default:
+                return value;
+        }
     }
 }

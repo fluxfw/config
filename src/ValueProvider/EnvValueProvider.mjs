@@ -4,16 +4,16 @@ export class EnvValueProvider {
      */
     #env;
     /**
-     * @type {string}
+     * @type {string | null}
      */
     #prefix;
 
     /**
      * @param {{[key: string]: string}} env
-     * @param {string} prefix
+     * @param {string | null} prefix
      * @returns {Promise<EnvValueProvider>}
      */
-    static async new(env, prefix) {
+    static async new(env, prefix = null) {
         return new this(
             env,
             prefix
@@ -22,7 +22,7 @@ export class EnvValueProvider {
 
     /**
      * @param {{[key: string]: string}} env
-     * @param {string} prefix
+     * @param {string | null} prefix
      * @private
      */
     constructor(env, prefix) {
@@ -35,6 +35,6 @@ export class EnvValueProvider {
      * @returns {Promise<*>}
      */
     async getConfig(key) {
-        return this.#env[`${this.#prefix}${key}`.replaceAll("-", "_").toUpperCase()] ?? null;
+        return this.#env[`${this.#prefix ?? ""}${key}`.replaceAll("-", "_").toUpperCase()] ?? null;
     }
 }

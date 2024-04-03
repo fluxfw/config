@@ -1,6 +1,6 @@
-import { FILE_SUFFIX } from "./FileValueProvider.mjs";
-import { JSON_FILE_SUFFIX } from "./JsonFileValueProvider.mjs";
-import { JSON_SUFFIX } from "./JsonValueProvider.mjs";
+import { CONFIG_TYPE_NONE } from "../CONFIG_TYPE.mjs";
+import { PREFIXES } from "./PREFIXES.mjs";
+import { SUFFIXES } from "./SUFFIXES.mjs";
 
 /** @typedef {import("../FluxConfig.mjs").FluxConfig} FluxConfig */
 
@@ -32,7 +32,7 @@ export class ConfigValueProvider {
      * @returns {Promise<*>}
      */
     async getConfig(key, flux_config) {
-        if (key === CONFIG_KEY || key === `${CONFIG_KEY}${FILE_SUFFIX}` || key === `${CONFIG_KEY}${JSON_SUFFIX}` || key === `${CONFIG_KEY}${JSON_FILE_SUFFIX}`) {
+        if (key === CONFIG_KEY || PREFIXES.some(prefix => key === `${prefix}${CONFIG_KEY}`) || SUFFIXES.some(suffix => key === `${CONFIG_KEY}${suffix}`)) {
             return null;
         }
 
@@ -49,7 +49,7 @@ export class ConfigValueProvider {
         this.#config ??= await flux_config.getConfig(
             CONFIG_KEY,
             {},
-            false
+            CONFIG_TYPE_NONE
         );
 
         return this.#config;

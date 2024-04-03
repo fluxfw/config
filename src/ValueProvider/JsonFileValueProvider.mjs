@@ -1,10 +1,8 @@
-import { FILE_SUFFIX } from "./FileValueProvider.mjs";
-import { JSON_SUFFIX } from "./JsonValueProvider.mjs";
+import { PREFIXES } from "./PREFIXES.mjs";
 import { readFile } from "node:fs/promises";
+import { SUFFIX_JSON_FILE, SUFFIXES } from "./SUFFIXES.mjs";
 
 /** @typedef {import("../FluxConfig.mjs").FluxConfig} FluxConfig */
-
-export const JSON_FILE_SUFFIX = `${JSON_SUFFIX}${FILE_SUFFIX}`;
 
 export class JsonFileValueProvider {
     /**
@@ -27,12 +25,13 @@ export class JsonFileValueProvider {
      * @returns {Promise<*>}
      */
     async getConfig(key, flux_config) {
-        if (key.endsWith(FILE_SUFFIX) || key.endsWith(JSON_SUFFIX)) {
+        if (PREFIXES.some(prefix => key.startsWith(prefix)) || SUFFIXES.some(suffix => key.endsWith(suffix))) {
             return null;
         }
 
         const value = await flux_config.getConfig(
-            `${key}${JSON_FILE_SUFFIX}`,
+            `${key}${SUFFIX_JSON_FILE}`,
+            null,
             null,
             false
         );
