@@ -1,3 +1,5 @@
+import { CONFIG_TYPE_BOOLEAN, CONFIG_TYPE_NUMBER } from "../CONFIG_TYPE.mjs";
+
 export class ArgsValueProvider {
     /**
      * @type {string[] | null}
@@ -24,6 +26,16 @@ export class ArgsValueProvider {
      */
     constructor(args) {
         this.#args = args;
+    }
+
+    /**
+     * @returns {string[]}
+     */
+    get cast_types() {
+        return [
+            CONFIG_TYPE_BOOLEAN,
+            CONFIG_TYPE_NUMBER
+        ];
     }
 
     /**

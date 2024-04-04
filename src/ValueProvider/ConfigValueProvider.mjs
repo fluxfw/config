@@ -1,6 +1,4 @@
-import { CONFIG_TYPE_NONE } from "../CONFIG_TYPE.mjs";
-import { PREFIXES } from "./PREFIXES.mjs";
-import { SUFFIXES } from "./SUFFIXES.mjs";
+import { CONFIG_TYPE_OBJECT } from "../CONFIG_TYPE.mjs";
 
 /** @typedef {import("../FluxConfig.mjs").FluxConfig} FluxConfig */
 
@@ -8,7 +6,7 @@ const CONFIG_KEY = "config";
 
 export class ConfigValueProvider {
     /**
-     * @type {{[key: string]: *} | null}
+     * @type {{[key: string]: *} | false | null}
      */
     #config = null;
 
@@ -32,7 +30,7 @@ export class ConfigValueProvider {
      * @returns {Promise<*>}
      */
     async getConfig(key, flux_config) {
-        if (key === CONFIG_KEY || PREFIXES.some(prefix => key === `${prefix}${CONFIG_KEY}`) || SUFFIXES.some(suffix => key === `${CONFIG_KEY}${suffix}`)) {
+        if (this.#config === false) {
             return null;
         }
 
@@ -46,11 +44,15 @@ export class ConfigValueProvider {
      * @returns {Promise<{[key: string]: *}>}
      */
     async #getConfig(flux_config) {
-        this.#config ??= await flux_config.getConfig(
-            CONFIG_KEY,
-            {},
-            CONFIG_TYPE_NONE
-        );
+        if (this.#config === null) {
+            this.#config = false;
+
+            this.#config = await flux_config.getConfig(
+                CONFIG_KEY,
+                CONFIG_TYPE_OBJECT,
+                {}
+            );
+        }
 
         return this.#config;
     }

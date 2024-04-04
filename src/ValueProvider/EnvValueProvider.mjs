@@ -1,3 +1,5 @@
+import { CONFIG_TYPE_BOOLEAN, CONFIG_TYPE_NUMBER } from "../CONFIG_TYPE.mjs";
+
 export class EnvValueProvider {
     /**
      * @type {{[key: string]: string}}
@@ -28,6 +30,16 @@ export class EnvValueProvider {
     constructor(env, prefix) {
         this.#env = env;
         this.#prefix = prefix;
+    }
+
+    /**
+     * @returns {string[]}
+     */
+    get cast_types() {
+        return [
+            CONFIG_TYPE_BOOLEAN,
+            CONFIG_TYPE_NUMBER
+        ];
     }
 
     /**

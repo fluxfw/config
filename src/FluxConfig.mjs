@@ -1,4 +1,4 @@
-import { CONFIG_TYPE_BOOLEAN, CONFIG_TYPE_NONE, CONFIG_TYPE_NUMBER, CONFIG_TYPE_STRING } from "./CONFIG_TYPE.mjs";
+import { CONFIG_TYPE_ARRAY, CONFIG_TYPE_BOOLEAN, CONFIG_TYPE_NUMBER, CONFIG_TYPE_OBJECT, CONFIG_TYPE_STRING } from "./CONFIG_TYPE.mjs";
 
 /** @typedef {import("./ValueProvider/ValueProvider.mjs").ValueProvider} ValueProvider */
 
@@ -28,72 +28,82 @@ export class FluxConfig {
 
     /**
      * @param {string} key
+     * @param {string} type
      * @param {*} default_value
-     * @param {string | null} type
      * @param {boolean | null} required
-     * @param {boolean | null} type_strict
      * @returns {Promise<*>}
      */
-    async getConfig(key, default_value = null, type = null, required = null, type_strict = null) {
-        let value;
+    async getConfig(key, type, default_value = null, required = null) {
+        let value, value_provider;
 
-        for (const value_provider of this.#value_providers) {
+        for (value_provider of [
+            ...this.#value_providers,
+            {
+                getConfig: async () => typeof default_value === "function" ? await default_value() ?? null : default_value
+            }
+        ]) {
             value ??= await value_provider.getConfig(
                 key,
                 this
             ) ?? null;
-        }
 
-        value ??= typeof default_value === "function" ? await default_value() ?? null : default_value;
+            if (value !== null) {
+                break;
+            }
+        }
 
         if (value === null) {
             if (required ?? true) {
-                throw new Error(`Missing config ${key}!`);
+                throw new Error(`Missing config "${key}"!`);
             } else {
                 return null;
             }
         }
 
-        switch (type ?? CONFIG_TYPE_STRING) {
+        const cast = (value_provider.cast_types ?? []).includes(type);
+
+        switch (type) {
+            case CONFIG_TYPE_ARRAY:
+                if (Array.isArray(value)) {
+                    return value;
+                }
+
+                throw new TypeError(`Config "${key}" needs to be an array!`);
+
             case CONFIG_TYPE_BOOLEAN:
                 if (typeof value === "boolean") {
                     return value;
                 }
 
-                if ([
-                    "true",
-                    "yes",
-                    1,
-                    "1",
-                    ""
-                ].includes(typeof value === "string" ? value.toLowerCase() : value)) {
-                    return true;
+                if (cast) {
+                    if ([
+                        "true",
+                        "yes",
+                        1,
+                        "1",
+                        ""
+                    ].includes(typeof value === "string" ? value.toLowerCase() : value)) {
+                        return true;
+                    }
+
+                    if ([
+                        "false",
+                        "no",
+                        0,
+                        "0"
+                    ].includes(typeof value === "string" ? value.toLowerCase() : value)) {
+                        return false;
+                    }
                 }
 
-                if ([
-                    "false",
-                    "no",
-                    0,
-                    "0"
-                ].includes(typeof value === "string" ? value.toLowerCase() : value)) {
-                    return false;
-                }
-
-                if (type_strict ?? true) {
-                    throw new Error(`Invalid boolean config ${key}=${value}!`);
-                }
-
-                return value;
-
-            case CONFIG_TYPE_NONE:
-                return value;
+                throw new TypeError(`Config "${key}" needs to be a boolean!`);
 
             case CONFIG_TYPE_NUMBER:
                 if (Number.isFinite(value)) {
                     return value;
                 }
 
-                if (typeof value === "string" && /^-?\d+(\.\d+)?$/.test(value)) {
+                if (cast && typeof value === "string" && /^-?\d+(\.\d+)?$/.test(value)) {
                     const number = parseFloat(value);
 
                     if (Number.isFinite(number)) {
@@ -101,25 +111,24 @@ export class FluxConfig {
                     }
                 }
 
-                if (type_strict ?? true) {
-                    throw new Error(`Invalid number config ${key}=${value}!`);
+                throw new TypeError(`Config "${key}" needs to be a number!`);
+
+            case CONFIG_TYPE_OBJECT:
+                if (Object.prototype.toString.call(value) === "[object Object]") {
+                    return value;
                 }
 
-                return value;
+                throw new TypeError(`Config "${key}" needs to be an object!`);
 
             case CONFIG_TYPE_STRING:
                 if (typeof value === "string") {
                     return value;
                 }
 
-                if (type_strict ?? true) {
-                    throw new Error(`Invalid string config ${key}=${value}!`);
-                }
-
-                return value;
+                throw new TypeError(`Config "${key}" needs to be a string!`);
 
             default:
-                return value;
+                throw new Error(`Invalid type "${key}"!`);
         }
     }
 }

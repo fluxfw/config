@@ -6,6 +6,17 @@ Changes:
 
 \-
 
+## v2024-04-04-1
+
+Changes:
+
+- Make no prefix work with suffixes
+- Only cast values for providers which need it
+- Do not ignore invalid value for no prefix anymore
+- Required type
+- Required strict type
+- Replace `CONFIG_TYPE_NONE` with `CONFIG_TYPE_ARRAY` and `CONFIG_TYPE_OBJECT`
+
 ## v2024-04-03-1
 
 Changes:

@@ -1,5 +1,5 @@
-import { PREFIXES } from "./PREFIXES.mjs";
-import { SUFFIX_JSON, SUFFIXES } from "./SUFFIXES.mjs";
+import { CONFIG_TYPE_STRING } from "../CONFIG_TYPE.mjs";
+import { SUFFIX_FILE, SUFFIX_JSON } from "./SUFFIX.mjs";
 
 /** @typedef {import("../FluxConfig.mjs").FluxConfig} FluxConfig */
 
@@ -24,13 +24,13 @@ export class JsonValueProvider {
      * @returns {Promise<*>}
      */
     async getConfig(key, flux_config) {
-        if (PREFIXES.some(prefix => key.startsWith(prefix)) || SUFFIXES.some(suffix => key.endsWith(suffix))) {
+        if (key.endsWith(SUFFIX_FILE) || key.endsWith(SUFFIX_JSON)) {
             return null;
         }
 
         const value = await flux_config.getConfig(
             `${key}${SUFFIX_JSON}`,
-            null,
+            CONFIG_TYPE_STRING,
             null,
             false
         );

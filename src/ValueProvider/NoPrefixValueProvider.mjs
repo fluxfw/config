@@ -1,8 +1,9 @@
 import { CONFIG_TYPE_BOOLEAN } from "../CONFIG_TYPE.mjs";
-import { SUFFIXES } from "./SUFFIXES.mjs";
-import { PREFIX_NO, PREFIXES } from "./PREFIXES.mjs";
+import { SUFFIX_FILE, SUFFIX_JSON } from "./SUFFIX.mjs";
 
 /** @typedef {import("../FluxConfig.mjs").FluxConfig} FluxConfig */
+
+const PREFIX_NO = "no-";
 
 export class NoPrefixValueProvider {
     /**
@@ -25,19 +26,18 @@ export class NoPrefixValueProvider {
      * @returns {Promise<*>}
      */
     async getConfig(key, flux_config) {
-        if (PREFIXES.some(prefix => key.startsWith(prefix)) || SUFFIXES.some(suffix => key.endsWith(suffix))) {
+        if (key.startsWith(PREFIX_NO) || key.endsWith(SUFFIX_FILE) || key.endsWith(SUFFIX_JSON)) {
             return null;
         }
 
         const value = await flux_config.getConfig(
             `${PREFIX_NO}${key}`,
-            null,
             CONFIG_TYPE_BOOLEAN,
-            false,
+            null,
             false
         );
 
-        if (typeof value !== "boolean") {
+        if (value === null) {
             return null;
         }
 

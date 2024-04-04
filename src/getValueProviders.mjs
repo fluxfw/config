@@ -12,7 +12,7 @@ export async function getValueProviders(args = null, env = null) {
                 args !== true ? args : null
             )
         ] : [],
-        ...(env ?? null) !== null ? [
+        ...env !== null ? [
             await (await import("./ValueProvider/EnvValueProvider.mjs")).EnvValueProvider.new(
                 ...typeof env === "string" ? [
                     process.env,
