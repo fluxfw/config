@@ -6,6 +6,12 @@ Changes:
 
 \-
 
+## v2024-04-04-2
+
+Changes:
+
+- Cast for file value provider
+
 ## v2024-04-04-1
 
 Changes:

@@ -1,3 +1,4 @@
+import { parseArgs } from "node:util";
 import { CONFIG_TYPE_BOOLEAN, CONFIG_TYPE_NUMBER } from "../CONFIG_TYPE.mjs";
 
 export class ArgsValueProvider {
@@ -50,7 +51,7 @@ export class ArgsValueProvider {
      * @returns {Promise<{[key: string]: *}>}
      */
     async #parseArgs() {
-        this.#parsed_args ??= (await import("node:util")).parseArgs({
+        this.#parsed_args ??= parseArgs({
             args: this.#args,
             strict: false
         }).values;

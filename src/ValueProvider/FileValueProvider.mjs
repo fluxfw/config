@@ -1,5 +1,5 @@
-import { CONFIG_TYPE_STRING } from "../CONFIG_TYPE.mjs";
 import { readFile } from "node:fs/promises";
+import { CONFIG_TYPE_BOOLEAN, CONFIG_TYPE_NUMBER, CONFIG_TYPE_STRING } from "../CONFIG_TYPE.mjs";
 import { SUFFIX_FILE, SUFFIX_JSON } from "./SUFFIX.mjs";
 
 /** @typedef {import("../FluxConfig.mjs").FluxConfig} FluxConfig */
@@ -17,6 +17,16 @@ export class FileValueProvider {
      */
     constructor() {
 
+    }
+
+    /**
+     * @returns {string[]}
+     */
+    get cast_types() {
+        return [
+            CONFIG_TYPE_BOOLEAN,
+            CONFIG_TYPE_NUMBER
+        ];
     }
 
     /**
