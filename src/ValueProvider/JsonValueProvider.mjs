@@ -1,7 +1,7 @@
 import { CONFIG_TYPE_STRING } from "../CONFIG_TYPE.mjs";
 import { SUFFIX_FILE, SUFFIX_JSON } from "./SUFFIX.mjs";
 
-/** @typedef {import("../FluxConfig.mjs").FluxConfig} FluxConfig */
+/** @typedef {import("../Config.mjs").Config} Config */
 
 export class JsonValueProvider {
     /**
@@ -20,15 +20,15 @@ export class JsonValueProvider {
 
     /**
      * @param {string} key
-     * @param {FluxConfig} flux_config
+     * @param {Config} config
      * @returns {Promise<*>}
      */
-    async getConfig(key, flux_config) {
+    async getConfig(key, config) {
         if (key.endsWith(SUFFIX_FILE) || key.endsWith(SUFFIX_JSON)) {
             return null;
         }
 
-        const value = await flux_config.getConfig(
+        const value = await config.getConfig(
             `${key}${SUFFIX_JSON}`,
             CONFIG_TYPE_STRING,
             null,

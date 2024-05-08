@@ -1,7 +1,7 @@
 import { CONFIG_TYPE_BOOLEAN } from "../CONFIG_TYPE.mjs";
 import { SUFFIX_FILE, SUFFIX_JSON } from "./SUFFIX.mjs";
 
-/** @typedef {import("../FluxConfig.mjs").FluxConfig} FluxConfig */
+/** @typedef {import("../Config.mjs").Config} Config */
 
 const PREFIX_NO = "no-";
 
@@ -22,15 +22,15 @@ export class NoPrefixValueProvider {
 
     /**
      * @param {string} key
-     * @param {FluxConfig} flux_config
+     * @param {Config} config
      * @returns {Promise<*>}
      */
-    async getConfig(key, flux_config) {
+    async getConfig(key, config) {
         if (key.startsWith(PREFIX_NO) || key.endsWith(SUFFIX_FILE) || key.endsWith(SUFFIX_JSON)) {
             return null;
         }
 
-        const value = await flux_config.getConfig(
+        const value = await config.getConfig(
             `${PREFIX_NO}${key}`,
             CONFIG_TYPE_BOOLEAN,
             null,

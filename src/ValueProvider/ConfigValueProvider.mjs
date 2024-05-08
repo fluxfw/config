@@ -1,6 +1,6 @@
 import { CONFIG_TYPE_OBJECT } from "../CONFIG_TYPE.mjs";
 
-/** @typedef {import("../FluxConfig.mjs").FluxConfig} FluxConfig */
+/** @typedef {import("../Config.mjs").Config} Config */
 
 const CONFIG_KEY = "config";
 
@@ -26,28 +26,28 @@ export class ConfigValueProvider {
 
     /**
      * @param {string} key
-     * @param {FluxConfig} flux_config
+     * @param {Config} config
      * @returns {Promise<*>}
      */
-    async getConfig(key, flux_config) {
+    async getConfig(key, config) {
         if (this.#config === false) {
             return null;
         }
 
         return structuredClone((await this.#getConfig(
-            flux_config
+            config
         ))[key.replaceAll("_", "-").toLowerCase()] ?? null);
     }
 
     /**
-     * @param {FluxConfig} flux_config
+     * @param {Config} config
      * @returns {Promise<{[key: string]: *}>}
      */
-    async #getConfig(flux_config) {
+    async #getConfig(config) {
         if (this.#config === null) {
             this.#config = false;
 
-            this.#config = await flux_config.getConfig(
+            this.#config = await config.getConfig(
                 CONFIG_KEY,
                 CONFIG_TYPE_OBJECT,
                 {}

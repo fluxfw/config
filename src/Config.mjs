@@ -2,7 +2,7 @@ import { CONFIG_TYPE_ARRAY, CONFIG_TYPE_BOOLEAN, CONFIG_TYPE_NUMBER, CONFIG_TYPE
 
 /** @typedef {import("./ValueProvider/ValueProvider.mjs").ValueProvider} ValueProvider */
 
-export class FluxConfig {
+export class Config {
     /**
      * @type {ValueProvider[]}
      */
@@ -10,7 +10,7 @@ export class FluxConfig {
 
     /**
      * @param {ValueProvider[]} value_providers
-     * @returns {Promise<FluxConfig>}
+     * @returns {Promise<Config>}
      */
     static async new(value_providers) {
         return new this(
